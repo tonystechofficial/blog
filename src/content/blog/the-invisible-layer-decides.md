@@ -7,7 +7,7 @@ tags: ["docker", "traefik", "iptables", "systemd"]
 sources: ["infra/fermer-un-port-publie-par-docker.md", "infra/routage-par-proxy-inverse-declaratif.md", "infra/derriere-un-proxy-le-limiteur-compte-tout-le-monde-ensemble.md", "infra/serveur-qui-repond-au-ping-mais-rien-derriere.md", "infra/conteneur-dont-le-pid-1-est-bun-run-sort-en-139.md", "infra/environnements-de-dev-jetables-par-conteneur.md"]
 ---
 
-I run several applications on shared hosts, on separate subdomains behind Traefik. A count on one of them: 19 containers, 6 for a platform of disposable development environments, 2 service nodes for a project, and 9 routing files on the proxy side, one per application. An ordinary setup, and it lied to me three times.
+I run several applications on shared hosts, on separate subdomains behind Traefik. A count on one of them: 19 containers, 6 for a platform of disposable development environments, 2 service nodes for a project, and 9 routing files on the proxy side, most of them one per application. An ordinary setup, and it lied to me three times.
 
 A port I had closed, with the rule visible in `iptables -L`, still answered from the Internet. A user saw "insufficient balance" while the browser reported a CORS error, and the cause was a password rule in the proxy. A rate limit, documented and in place, counted every visitor as one person. Each time, the layer I believed transparent was the one deciding, and it decided without an error.
 

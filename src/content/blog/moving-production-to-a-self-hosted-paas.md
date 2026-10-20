@@ -27,7 +27,7 @@ docker run -d --name pre-api --network pre-net -p <loopback>:5999:5001 --env-fil
 
 The port is published on the loopback address only, and the one difference with production is the database.
 
-Then one control script, `checks.sh <url> …`, reading what the three audiences see (the mobile app, the admin page, the speaker's screen), run three times: on the rehearsal with intact data, on the rehearsal after the data change, on production after deployment and data change. That day: 12 languages visible on all three passes, 0 then 10 phrases in the tested subcategory, and the production data script was the very file run in the rehearsal. Read checks do not prove a write, so I finished with a real user gesture: a one-second sound generated with `ffmpeg`, uploaded with a test account, then deleted, with the deletion verified on both sides (database: 0, storage: 404).
+Then one control script, `checks.sh <url> …`, reading what the three audiences of the system see, run three times: on the rehearsal with intact data, on the rehearsal after the data change, on production after deployment and data change. That day: 12 languages visible on all three passes, 0 then 10 phrases in the tested subcategory, and the production data script was the very file run in the rehearsal. Read checks do not prove a write, so I finished with a real user gesture: a one-second sound generated with `ffmpeg`, uploaded with a test account, then deleted, with the deletion verified on both sides (database: 0, storage: 404).
 
 ## Files moved by URL, proven by size
 
@@ -71,7 +71,7 @@ Webhooks. Dokploy matches a push to its deployments by the owner's name. After I
 
 ## The timer that wakes up first
 
-On another host, MongoDB runs as a Swarm task and two systemd timers with `Persistent=true` drive a daily dump and an oplog capture every 15 minutes; each script refuses, exit 1, when it finds no Mongo container. After a reboot on 8 October at 10:15 UTC, both timers fired their catch-up at 10:15:31, the services started at 10:15:50 with Docker active but the Swarm task not yet recreated, and at 10:15:51 both refused. `After=docker.service` waits for the daemon, not for a container, and a failed `oneshot` is not retried. The 15-minute capture heals itself at the next tick; the daily dump leaves a 24 h hole that only `systemctl --failed` shows. The fixes: `systemctl --failed` after every reboot, `Restart=on-failure` with `RestartSec=60`, or a bounded wait for the container in the script. Never remove the refusal: a script that exits 0 without saving anything is worse than a failed unit.
+On another host, MongoDB runs as a Swarm task and two systemd timers with `Persistent=true` drive a daily dump and an oplog capture every 15 minutes; each script refuses, exit 1, when it finds no Mongo container. After a reboot on 8 October at 10:15 UTC, both timers fired their catch-up at 10:15:31, the services started at 10:15:50 with Docker active but the Swarm task not yet recreated, and at 10:15:51 both refused. `After=docker.service` waits for the daemon, not for a container, and a failed `oneshot` is not retried. The 15-minute capture heals itself at the next tick; the daily dump leaves a 24 h hole that only `systemctl --failed` shows. The fixes: `systemctl --failed` after every reboot, `Restart=on-failure` with `RestartSec=60`, or a bounded wait for the container in the script.
 
 ## What I keep
 
