@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Header from '../../components/Header.astro';
+import { SITE_DESCRIPTION, TRACKS } from '../../consts';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Writing · Tony Duong" description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main class="wrap">
+			<h1>Writing</h1>
+			<p class="lead">All notes, newest first. Dates are the day the work happened.</p>
+			<ol class="posts">
+				{posts.map((post) => (
+					<li>
+						<p class="title"><a href={`/blog/${post.id}/`}>{post.data.title}</a></p>
+						<p class="meta">
+							<FormattedDate date={post.data.pubDate} />
+							<span aria-hidden="true"> · </span>
+							<a href={`/#${post.data.track}`}>{TRACKS[post.data.track].label}</a>
+						</p>
+						<p class="desc">{post.data.description}</p>
+					</li>
+				))}
+			</ol>
+		</main>
+		<Footer />
+	</body>
+</html>

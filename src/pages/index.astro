@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE, TRACKS, TRACK_ORDER } from '../consts';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const byTrack = TRACK_ORDER.map((track) => ({
+	track,
+	...TRACKS[track],
+	posts: posts.filter((p) => p.data.track === track),
+})).filter((t) => t.posts.length > 0);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main class="wrap">
+			<section class="intro">
+				<h1>Field notes from production</h1>
+				<p class="lead">
+					I am Tony Duong, a fullstack and AI engineer in Bordeaux. I build DeFi backends on Minima and
+					EVM chains, run the servers they live on, and write most of my code with an agent. Each note
+					here comes from a measurement made on the job: a number, a command, a failure that was
+					reproduced before it was explained.
+				</p>
+				<p class="meta">{posts.length} notes · <a href="/about/">about me</a> · <a href="/rss.xml">rss</a></p>
+			</section>
+
+			{byTrack.map((t) => (
+				<section class="track" id={t.track}>
+					<p class="eyebrow">{t.label}</p>
+					<p class="blurb">{t.blurb}</p>
+					<ol class="posts">
+						{t.posts.map((post) => (
+							<li>
+								<p class="title"><a href={`/blog/${post.id}/`}>{post.data.title}</a></p>
+								<p class="meta"><FormattedDate date={post.data.pubDate} /></p>
+								<p class="desc">{post.data.description}</p>
+							</li>
+						))}
+					</ol>
+				</section>
+			))}
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.intro {
+		margin-bottom: 2.5rem;
+	}
+	.intro h1 {
+		font-size: 2.2rem;
+		margin-bottom: 1rem;
+	}
+	.track {
+		margin-top: 2.6rem;
+	}
+	.blurb {
+		color: var(--ink-2);
+		margin-bottom: 0.9rem;
+	}
+</style>

@@ -1,0 +1,68 @@
+---
+import { AUTHOR, GITHUB_URL } from '../consts';
+import HeaderLink from './HeaderLink.astro';
+---
+
+<header>
+	<nav class="wrap">
+		<a class="brand" href="/">
+			<span class="name">{AUTHOR}</span>
+			<span class="sub">Field notes</span>
+		</a>
+		<div class="links">
+			<HeaderLink href="/blog">Writing</HeaderLink>
+			<HeaderLink href="/about">About</HeaderLink>
+			<a href="/rss.xml">RSS</a>
+			<a href={GITHUB_URL} rel="me">GitHub</a>
+		</div>
+	</nav>
+</header>
+
+<style>
+	header {
+		border-bottom: 1px solid var(--rule);
+	}
+	nav {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+		padding-block: 1.1rem;
+	}
+	.brand {
+		text-decoration: none;
+		color: var(--ink);
+		display: flex;
+		align-items: baseline;
+		gap: 0.6rem;
+	}
+	.name {
+		font-family: var(--font-ui);
+		font-weight: 600;
+		font-size: 1.05rem;
+	}
+	.sub {
+		font-family: var(--font-mono);
+		font-size: 0.8rem;
+		color: var(--ink-3);
+	}
+	.links {
+		display: flex;
+		gap: 1.1rem;
+		font-family: var(--font-mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.03em;
+	}
+	.links a {
+		color: var(--ink-2);
+		text-decoration: none;
+		padding-bottom: 0.15rem;
+		border-bottom: 1px solid transparent;
+	}
+	.links a:hover,
+	.links a.active {
+		color: var(--accent);
+		border-bottom-color: var(--accent);
+	}
+</style>

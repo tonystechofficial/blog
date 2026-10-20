@@ -1,0 +1,90 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { GITHUB_URL, PORTFOLIO_URL, REPO_URL } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title="About · Tony Duong"
+			description="Tony Duong, fullstack and AI engineer in Bordeaux: who I am, what I work on, and how these field notes are made."
+		/>
+	</head>
+	<body>
+		<Header />
+		<main class="wrap">
+			<h1>About</h1>
+			<p class="lead">
+				Fullstack and AI engineer with seven years of experience, based in Bordeaux. Comfortable from
+				architecture scoping to production, and most interested in the part where a system meets
+				real money, real servers and real users.
+			</p>
+
+			<div class="prose">
+				<h2>What I work on</h2>
+				<p>
+					Since January 2024 I am partner and tech lead at Econumerica. The core of my work there is
+					a non-custodial DeFi platform spread across several repositories: a NestJS backend, MiniDapps
+					running on Minima nodes, and positions on EVM chains through Uniswap, THORChain and Maya.
+					That is where most of the on-chain and Minima notes come from: multisig custody signed node by
+					node, LP accounting, fund valuation that must never turn a failed read into a zero.
+				</p>
+				<p>
+					I also run the servers these systems live on. Docker, Traefik and Dokploy on a handful of
+					hosts, backups that prove their restore, migrations rehearsed on a copy of production. And I
+					write most of my code with Claude Code, in production conditions, with the cost and the
+					leaks measured rather than guessed.
+				</p>
+				<p>
+					Before that: JavaScript developer at Amiltone (Vue 3, TypeScript, Node, ElasticSearch) and
+					junior web developer at TEHTRIS, a cybersecurity company, on Vue 2 and 3. I hold an MSc in
+					AI and Big Data project management (IA School), and a DUT in computer science plus the DAWIN
+					diploma from IUT Bordeaux. The AI governance side, EU AI Act included, is part of how I scope
+					anything that ships a model to users.
+				</p>
+
+				<h2>In the open</h2>
+				<ul>
+					<li>
+						<a href="https://rag-quest.vercel.app">RAG Quest</a> and
+						<a href="https://angular-quest-game.vercel.app">Angular Quest</a>, two open-source learning
+						games (data, NLP and retrieval; modern Angular), with the code on GitHub.
+					</li>
+					<li>
+						<a href="https://github.com/tonystechofficial/claude-code-guide-de-terrain">A field guide to
+						Claude Code</a>, in French, under CC BY 4.0.
+					</li>
+					<li>
+						Two products under the devanchor brand: Régie, a social scheduling tool forked from Postiz,
+						and Skilance, a freelance marketplace. Both are paused while I decide what deserves the
+						next push.
+					</li>
+				</ul>
+
+				<h2 id="how">How these notes are made</h2>
+				<p>
+					Every post starts from the working notes I keep while doing the job. The notes hold the
+					measurement: the command that was run, the number that came back, the error message as it
+					was printed. A post is dated by the day that work happened, not by the day it was published,
+					and it says so at the bottom.
+				</p>
+				<p>
+					I draft the English text with Claude Code from those notes and edit it myself. Nothing here
+					reproduces a client's code or data. Hosts, identifiers and client names are removed, and a
+					fact that the notes do not support is left out rather than filled in.
+				</p>
+
+				<h2>Elsewhere</h2>
+				<p>
+					<a href={GITHUB_URL}>GitHub</a> · <a href={PORTFOLIO_URL}>Portfolio</a> ·
+					<a href="mailto:astowny@gmail.com">astowny@gmail.com</a> ·
+					<a href={REPO_URL}>source of this site</a>
+				</p>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

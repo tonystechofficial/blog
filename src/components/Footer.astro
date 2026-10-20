@@ -1,0 +1,50 @@
+---
+import { AUTHOR, AUTHOR_ROLE, GITHUB_URL, PORTFOLIO_URL, REPO_URL } from '../consts';
+const year = new Date().getFullYear();
+---
+
+<footer>
+	<div class="wrap inner">
+		<p class="who">
+			<strong>{AUTHOR}</strong>, {AUTHOR_ROLE}.
+			Text under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, {year}.
+		</p>
+		<p class="links mono">
+			<a href={GITHUB_URL}>GitHub</a>
+			<a href={PORTFOLIO_URL}>Portfolio</a>
+			<a href="/rss.xml">RSS</a>
+			<a href={REPO_URL}>Source of this site</a>
+		</p>
+	</div>
+</footer>
+
+<style>
+	footer {
+		border-top: 1px solid var(--rule);
+		margin-top: 2rem;
+	}
+	.inner {
+		padding-block: 1.5rem 2.5rem;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0.6rem 2rem;
+	}
+	p {
+		margin: 0;
+		font-size: 0.95rem;
+		color: var(--ink-2);
+	}
+	.links {
+		display: flex;
+		gap: 1.1rem;
+		flex-wrap: wrap;
+	}
+	.links a {
+		color: var(--ink-2);
+		text-decoration: none;
+	}
+	.links a:hover {
+		color: var(--accent);
+	}
+</style>
