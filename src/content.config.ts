@@ -11,7 +11,7 @@ const blog = defineCollection({
 		// The day the work happened. Posts are dated by the work, not by the publication.
 		pubDate: z.coerce.date(),
 		updatedDate: z.coerce.date().optional(),
-		track: z.enum(['ai-engineering', 'minima', 'onchain', 'infrastructure']),
+		track: z.enum(['ai-engineering', 'minima', 'onchain', 'infrastructure', 'security']),
 		tags: z.array(z.string()).default([]),
 		// Working notes the post was written from (not rendered).
 		sources: z.array(z.string()).optional(),

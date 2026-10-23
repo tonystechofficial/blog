@@ -9,9 +9,9 @@ export const GITHUB_URL = 'https://github.com/tonystechofficial';
 export const PORTFOLIO_URL = 'https://tonystechofficial.github.io/';
 export const REPO_URL = 'https://github.com/tonystechofficial/blog';
 
-export type Track = 'ai-engineering' | 'minima' | 'onchain' | 'infrastructure';
+export type Track = 'ai-engineering' | 'minima' | 'onchain' | 'infrastructure' | 'security';
 
-export const TRACK_ORDER: Track[] = ['ai-engineering', 'minima', 'onchain', 'infrastructure'];
+export const TRACK_ORDER: Track[] = ['ai-engineering', 'minima', 'onchain', 'infrastructure', 'security'];
 
 export const TRACKS: Record<Track, { label: string; blurb: string }> = {
 	'ai-engineering': {
@@ -29,5 +29,9 @@ export const TRACKS: Record<Track, { label: string; blurb: string }> = {
 	infrastructure: {
 		label: 'Servers and infrastructure',
 		blurb: 'Several applications on one host, Docker and Traefik, self-hosted PaaS migrations, forking an AGPL SaaS.',
+	},
+	security: {
+		label: 'Security',
+		blurb: 'Supply-chain traps, secrets that travel, and what to do once the hostile code has already run.',
 	},
 };
