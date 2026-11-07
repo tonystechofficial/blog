@@ -1,0 +1,40 @@
+---
+// List of all posts, shared by /blog/ and /fr/blog/.
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { SITE, UI, asLang, getPosts, localize, tracks } from '../i18n';
+
+const lang = asLang(Astro.currentLocale);
+const t = UI[lang];
+const posts = await getPosts(lang);
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<BaseHead title={t.writingTitle} description={SITE[lang].description} />
+	</head>
+	<body>
+		<Header />
+		<main class="wrap">
+			<h1>{t.writing}</h1>
+			<p class="lead">{t.writingLead}</p>
+			<ol class="posts">
+				{posts.map((post) => (
+					<li>
+						<p class="title"><a href={localize(lang, `/blog/${post.id}/`)}>{post.data.title}</a></p>
+						<p class="meta">
+							<FormattedDate date={post.data.pubDate} />
+							<span aria-hidden="true"> · </span>
+							<a href={`${localize(lang, '/')}#${post.data.track}`}>{tracks(lang)[post.data.track].label}</a>
+						</p>
+						<p class="desc">{post.data.description}</p>
+					</li>
+				))}
+			</ol>
+		</main>
+		<Footer />
+	</body>
+</html>

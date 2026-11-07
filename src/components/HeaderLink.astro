@@ -1,12 +1,13 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
+import { unlocalize } from '../i18n';
 
 type Props = HTMLAttributes<'a'>;
 
 const { href, class: className, ...props } = Astro.props;
-const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
-const subpath = pathname.match(/[^\/]+/g);
-const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
+// Compare without the language prefix, so /fr/blog/x/ marks "Articles" like /blog/x/ marks "Writing".
+const section = (p: string) => unlocalize(p).match(/[^\/]+/)?.[0] ?? '';
+const isActive = section(Astro.url.pathname) === section(String(href));
 ---
 
 <a href={href} class:list={[className, { active: isActive }]} {...props}>

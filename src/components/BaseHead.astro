@@ -1,23 +1,29 @@
 ---
 // Imported here so the stylesheet is included on every page.
 import '../styles/global.css';
-import { SITE_TITLE, AUTHOR } from '../consts';
+import { AUTHOR } from '../consts';
+import { HREFLANG, LANGS, OG_LOCALE, SITE, asLang, localize, unlocalize } from '../i18n';
 
 interface Props {
 	title: string;
 	description: string;
 	type?: 'website' | 'article';
+	/** False when this page has no version in the other language. */
+	alternate?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const { title, description, type = 'website' } = Astro.props;
+const { title, description, type = 'website', alternate = true } = Astro.props;
+const lang = asLang(Astro.currentLocale);
+const path = unlocalize(Astro.url.pathname);
+const abs = (p: string) => new URL(p, Astro.site);
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="sitemap" href="/sitemap-index.xml" />
-<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={new URL('rss.xml', Astro.site)} />
+<link rel="alternate" type="application/rss+xml" title={SITE[lang].title} href={abs(localize(lang, '/rss.xml'))} />
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content="#f5f2ea" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#131514" media="(prefers-color-scheme: dark)" />
@@ -30,6 +36,16 @@ const { title, description, type = 'website' } = Astro.props;
 />
 
 <link rel="canonical" href={canonicalURL} />
+{
+	alternate && (
+		<>
+			{LANGS.map((l) => (
+				<link rel="alternate" hreflang={HREFLANG[l]} href={abs(localize(l, path))} />
+			))}
+			<link rel="alternate" hreflang="x-default" href={abs(localize('en', path))} />
+		</>
+	)
+}
 
 <title>{title}</title>
 <meta name="description" content={description} />
@@ -39,5 +55,6 @@ const { title, description, type = 'website' } = Astro.props;
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:site_name" content={SITE[lang].title} />
+<meta property="og:locale" content={OG_LOCALE[lang]} />
 <meta name="twitter:card" content="summary" />

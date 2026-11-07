@@ -1,19 +1,45 @@
 ---
 import { AUTHOR, GITHUB_URL } from '../consts';
+import { LANGS, SITE, UI, asLang, localize, unlocalize } from '../i18n';
 import HeaderLink from './HeaderLink.astro';
+
+interface Props {
+	/** False when this page has no version in the other language: the switch then leads to that language's home. */
+	alternate?: boolean;
+}
+
+const { alternate = true } = Astro.props;
+const lang = asLang(Astro.currentLocale);
+const t = UI[lang];
+const path = unlocalize(Astro.url.pathname);
+const switchHref = (to: typeof lang) => localize(to, alternate ? path : '/');
 ---
 
 <header>
 	<nav class="wrap">
-		<a class="brand" href="/">
+		<a class="brand" href={localize(lang, '/')}>
 			<span class="name">{AUTHOR}</span>
-			<span class="sub">Field notes</span>
+			<span class="sub">{SITE[lang].sub}</span>
 		</a>
 		<div class="links">
-			<HeaderLink href="/blog">Writing</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
-			<a href="/rss.xml">RSS</a>
+			<HeaderLink href={localize(lang, '/blog/')}>{t.writing}</HeaderLink>
+			<HeaderLink href={localize(lang, '/about/')}>{t.about}</HeaderLink>
+			<a href={localize(lang, '/rss.xml')}>RSS</a>
 			<a href={GITHUB_URL} rel="me">GitHub</a>
+			<span class="lang" role="group" aria-label={t.language}>
+				{LANGS.map((l, i) => (
+					<>
+						{i > 0 && <span class="sep" aria-hidden="true">/</span>}
+						{l === lang ? (
+							<span class="current" aria-current="true">{l.toUpperCase()}</span>
+						) : (
+							<a href={switchHref(l)} hreflang={l} lang={l}>
+								{l.toUpperCase()}
+							</a>
+						)}
+					</>
+				))}
+			</span>
 		</div>
 	</nav>
 </header>
@@ -49,7 +75,9 @@ import HeaderLink from './HeaderLink.astro';
 	}
 	.links {
 		display: flex;
+		align-items: baseline;
 		gap: 1.1rem;
+		flex-wrap: wrap;
 		font-family: var(--font-mono);
 		font-size: 0.8rem;
 		letter-spacing: 0.03em;
@@ -61,8 +89,22 @@ import HeaderLink from './HeaderLink.astro';
 		border-bottom: 1px solid transparent;
 	}
 	.links a:hover,
-	.links a.active {
+	.links :global(a.active) {
 		color: var(--accent);
 		border-bottom-color: var(--accent);
+	}
+	.lang {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.35rem;
+		padding-left: 1.1rem;
+		border-left: 1px solid var(--rule);
+	}
+	.lang .current {
+		color: var(--ink);
+		font-weight: 500;
+	}
+	.lang .sep {
+		color: var(--ink-3);
 	}
 </style>

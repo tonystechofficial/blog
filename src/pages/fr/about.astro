@@ -1,0 +1,94 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { GITHUB_URL, PORTFOLIO_URL, REPO_URL } from '../../consts';
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<BaseHead
+			title="À propos · Tony Duong"
+			description="Tony Duong, ingénieur fullstack et IA à Bordeaux : qui je suis, sur quoi je travaille, et comment ces notes de terrain sont faites."
+		/>
+	</head>
+	<body>
+		<Header />
+		<main class="wrap">
+			<h1>À propos</h1>
+			<p class="lead">
+				Ingénieur fullstack et IA, sept ans d'expérience, basé à Bordeaux. À l'aise du cadrage de
+				l'architecture jusqu'à la production, et surtout intéressé par le moment où un système
+				rencontre de vrai argent, de vrais serveurs et de vrais utilisateurs.
+			</p>
+
+			<div class="prose">
+				<h2>Sur quoi je travaille</h2>
+				<p>
+					Depuis janvier 2024, je suis associé et tech lead chez Econumerica. Le cœur de mon travail y
+					est une plateforme DeFi non custodiale répartie sur plusieurs dépôts : un backend NestJS, des
+					MiniDapps qui tournent sur des nœuds Minima, et des positions sur des chaînes EVM via Uniswap,
+					THORChain et Maya. C'est de là que viennent la plupart des notes on-chain et Minima : la garde
+					multisig signée nœud par nœud, la comptabilité LP, une valorisation de fonds qui ne doit jamais
+					transformer une lecture ratée en zéro.
+				</p>
+				<p>
+					J'administre aussi les serveurs sur lesquels ces systèmes tournent. Docker, Traefik et Dokploy
+					sur une poignée d'hôtes, des sauvegardes qui prouvent leur restauration, des migrations
+					répétées sur une copie de la production. Et j'écris l'essentiel de mon code avec Claude Code,
+					en conditions de production, avec le coût et les fuites mesurés plutôt que devinés.
+				</p>
+				<p>
+					Avant cela : développeur JavaScript chez Amiltone (Vue 3, TypeScript, Node, ElasticSearch) et
+					développeur web junior chez TEHTRIS, une entreprise de cybersécurité, sur Vue 2 et 3. Je suis
+					titulaire d'un MSc en management de projets IA et Big Data (IA School), d'un DUT informatique
+					et du diplôme DAWIN de l'IUT de Bordeaux. La gouvernance de l'IA, AI Act européen compris, fait
+					partie de la façon dont je cadre tout ce qui met un modèle entre les mains d'utilisateurs.
+				</p>
+
+				<h2>En accès libre</h2>
+				<ul>
+					<li>
+						<a href="https://rag-quest.vercel.app">RAG Quest</a> et
+						<a href="https://angular-quest-game.vercel.app">Angular Quest</a>, deux jeux
+						d'apprentissage open source (données, NLP et recherche documentaire ; Angular moderne), avec
+						le code sur GitHub.
+					</li>
+					<li>
+						<a href="https://github.com/tonystechofficial/claude-code-guide-de-terrain">Un guide de
+						terrain de Claude Code</a>, en français, sous licence CC BY 4.0.
+					</li>
+					<li>
+						Deux produits sous la marque devanchor : Régie, un outil de programmation de publications
+						sur les réseaux sociaux issu d'un fork de Postiz, et Skilance, une place de marché pour
+						freelances. Les deux sont en pause, le temps de décider lequel mérite le prochain effort.
+					</li>
+				</ul>
+
+				<h2 id="how">Comment ces notes sont faites</h2>
+				<p>
+					Chaque article part des notes de travail que je prends en faisant le travail. Ces notes
+					gardent la mesure : la commande lancée, le nombre obtenu, le message d'erreur tel qu'il s'est
+					affiché. Un article est daté du jour où ce travail a eu lieu, pas du jour de sa publication, et
+					il le dit en bas de page.
+				</p>
+				<p>
+					Je rédige le texte avec Claude Code à partir de ces notes, puis je le relis et le corrige
+					moi-même. La version anglaise est l'originale ; la version française en est la traduction.
+					Rien ici ne reproduit le code ou les données d'un client. Les hôtes, les identifiants et les
+					noms de clients sont retirés, et un fait que les notes n'étayent pas est laissé de côté plutôt
+					que comblé.
+				</p>
+
+				<h2>Ailleurs</h2>
+				<p>
+					<a href={GITHUB_URL}>GitHub</a> · <a href={PORTFOLIO_URL}>Portfolio</a> ·
+					<a href="mailto:astowny@gmail.com">astowny@gmail.com</a> ·
+					<a href={REPO_URL}>code source de ce site</a>
+				</p>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

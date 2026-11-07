@@ -4,31 +4,33 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import { TRACKS } from '../consts';
+import { UI, asLang, localize, tracks } from '../i18n';
 
-type Props = CollectionEntry<'blog'>['data'] & { minutes?: number };
+type Props = CollectionEntry<'blog'>['data'] & { minutes?: number; alternate?: boolean };
 
-const { title, description, pubDate, updatedDate, track, tags, minutes } = Astro.props;
-const trackLabel = TRACKS[track].label;
+const { title, description, pubDate, updatedDate, track, tags, minutes, alternate = true } = Astro.props;
+const lang = asLang(Astro.currentLocale);
+const t = UI[lang];
+const trackLabel = tracks(lang)[track].label;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
-		<BaseHead title={`${title} · Tony Duong`} description={description} type="article" />
+		<BaseHead title={`${title} · Tony Duong`} description={description} type="article" alternate={alternate} />
 	</head>
 	<body>
-		<Header />
+		<Header alternate={alternate} />
 		<main class="wrap">
 			<article>
 				<p class="meta">
 					<FormattedDate date={pubDate} />
 					<span aria-hidden="true"> · </span>
-					<a href={`/#${track}`}>{trackLabel}</a>
+					<a href={`${localize(lang, '/')}#${track}`}>{trackLabel}</a>
 					{minutes && (
 						<>
 							<span aria-hidden="true"> · </span>
-							<span>{minutes} min read</span>
+							<span>{minutes} {t.minRead}</span>
 						</>
 					)}
 				</p>
@@ -47,14 +49,14 @@ const trackLabel = TRACKS[track].label;
 					)}
 					{updatedDate && (
 						<p class="meta">
-							Updated <FormattedDate date={updatedDate} />
+							{t.updated} <FormattedDate date={updatedDate} />
 						</p>
 					)}
 					<p class="note">
-						Dated by when the work happened, then edited for publication.
-						<a href="/about/#how">How these notes are made.</a>
+						{t.datedNote}
+						<a href={`${localize(lang, '/about/')}#how`}>{t.howLink}</a>
 					</p>
-					<p class="back"><a href="/blog/">All writing</a></p>
+					<p class="back"><a href={localize(lang, '/blog/')}>{t.allWriting}</a></p>
 				</footer>
 			</article>
 		</main>
